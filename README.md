@@ -1,37 +1,75 @@
+# React Native Gatt Cache Refresh
 
-# react-native-react-native-gatt-cache-refresh
+Easily refresh the GATT cache for Bluetooth devices in your React Native application. This package simplifies invoking the GATT refresh functionality on Android devices.
 
-## Getting started
+---
 
-`$ npm install react-native-react-native-gatt-cache-refresh --save`
+## Installation
 
-### Mostly automatic installation
+Install the package using npm or yarn:
 
-`$ react-native link react-native-react-native-gatt-cache-refresh`
+```bash
+npm install react-native-gatt-cache-refresh
+```
 
-### Manual installation
+or
 
+```bash
+yarn add react-native-gatt-cache-refresh
+```
 
-#### Android
+### Autolinking Support
 
-1. Open up `android/app/src/main/java/[...]/MainActivity.java`
-  - Add `import com.reactlibrary.RNReactNativeGattCacheRefreshPackage;` to the imports at the top of the file
-  - Add `new RNReactNativeGattCacheRefreshPackage()` to the list returned by the `getPackages()` method
-2. Append the following lines to `android/settings.gradle`:
-  	```
-  	include ':react-native-react-native-gatt-cache-refresh'
-  	project(':react-native-react-native-gatt-cache-refresh').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-react-native-gatt-cache-refresh/android')
-  	```
-3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
-  	```
-      compile project(':react-native-react-native-gatt-cache-refresh')
-  	```
+This package supports **autolinking** for React Native 0.60 and above. No manual linking is required for most configurations.
+
+---
 
 ## Usage
-```javascript
-import RNReactNativeGattCacheRefresh from 'react-native-react-native-gatt-cache-refresh';
 
-// TODO: What to do with the module?
-RNReactNativeGattCacheRefresh;
+### Import the Module
+
+You can use the module in your React Native project as follows:
+
+```javascript
+import RNGattCacheRefresh from 'react-native-gatt-cache-refresh';
+
+// Example usage
+RNGattCacheRefresh.refreshCache(deviceId, (error, result) => {
+  if (error) {
+    console.error('Failed to refresh GATT cache:', error);
+  } else {
+    console.log('GATT cache refreshed successfully:', result);
+  }
+});
 ```
-  
+
+### Parameters for `refreshCache`
+
+- **deviceId**: The unique identifier (MAC address) of the Bluetooth device.
+- **Callback**: Function to handle success or failure of the GATT cache refresh.
+
+---
+
+## Requirements
+
+- **React Native**: Version 0.60 and above
+- **Android**: API Level 31 (Android 12) and above
+- **Permissions**: Ensure the `BLUETOOTH_CONNECT` permission is granted in your app.
+
+---
+
+## Contributing
+
+Contributions are welcome! If you encounter any issues or have ideas for improvements, feel free to open an issue or submit a pull request.
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## Notes
+
+- This package only supports **Android**. It does not have iOS compatibility.
