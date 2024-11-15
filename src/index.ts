@@ -1,6 +1,15 @@
 import { NativeModules } from 'react-native';
 
-const { RNGattCacheRefresh } = NativeModules;
+interface RNGattCacheRefreshInterface {
+  refreshCache(
+    deviceId: string,
+    callback: (error: string | null, success: boolean) => void
+  ): void;
+}
+
+const { RNGattCacheRefresh } = NativeModules as {
+  RNGattCacheRefresh: RNGattCacheRefreshInterface;
+};
 
 /**
  * Refresh the GATT cache for a given device ID.
