@@ -1,0 +1,27 @@
+{
+  "name": "react-native-gatt-cache-refresh",
+  "version": "1.1.2",
+  "description": "A React Native module to refresh Bluetooth GATT cache",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "react-native": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react-native",
+    "bluetooth",
+    "gatt",
+    "cache",
+    "android"
+  ],
+  "author": "Cyril Lesot",
+  "license": "MIT",
+  "peerDependencies": {
+    "react-native": ">=0.60.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
