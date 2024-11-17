@@ -9,13 +9,13 @@ Easily refresh the GATT cache for Bluetooth devices in your React Native applica
 Install the package using npm or yarn:
 
 ```bash
-npm install react-native-gatt-cache-refresh
+npm install react-native-bluetooth-cache-manager
 ```
 
 or
 
 ```bash
-yarn add react-native-gatt-cache-refresh
+yarn add react-native-bluetooth-cache-manager
 ```
 
 ### Autolinking Support
@@ -31,7 +31,7 @@ This package supports **autolinking** for React Native 0.60 and above. No manual
 You can use the module in your React Native project as follows:
 
 ```javascript
-import RNGattCacheRefresh from 'react-native-gatt-cache-refresh';
+import RNGattCacheRefresh from 'react-native-bluetooth-cache-manager';
 
 // Example usage
 RNGattCacheRefresh.refreshCache(deviceId, (error, result) => {

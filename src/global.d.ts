@@ -1,4 +1,4 @@
-declare module "react-native-gatt-cache-refresh" {
+declare module "react-native-bluetooth-cache-manager" {
     /**
      * Native module for GATT cache refresh.
      */

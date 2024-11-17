@@ -1,5 +1,5 @@
 {
-  "name": "react-native-gatt-cache-refresh",
+  "name": "react-native-bluetooth-cache-manager",
   "version": "1.0.0",
   "description": "A React Native module to refresh Bluetooth GATT cache",
   "main": "lib/index.js",
