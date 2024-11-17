@@ -1,14 +1,31 @@
-import { NativeModules } from 'react-native';
+import { NativeModules } from "react-native";
 
-interface RNGattCacheRefreshInterface {
+interface RNBluetoothCacheManagerInterface {
+  /**
+   * Refresh the GATT cache for a given device ID.
+   * @param deviceId - The Bluetooth device ID.
+   * @param callback - Callback with error or success.
+   */
   refreshCache(
     deviceId: string,
     callback: (error: string | null, success: boolean) => void
   ): void;
+
+  /**
+   * Clear the Bluetooth Legacy app cache.
+   * @returns A promise that resolves to `true` if successful.
+   */
+  clearLegacyBluetoothCache(): Promise<boolean>;
+
+  /**
+   * Open the Bluetooth Legacy app settings.
+   * @returns A promise that resolves to `true` if the settings were opened successfully.
+   */
+  openBluetoothLegacySettings(): Promise<boolean>;
 }
 
-const { RNGattCacheRefresh } = NativeModules as {
-  RNGattCacheRefresh: RNGattCacheRefreshInterface;
+const { RNBluetoothCacheManager } = NativeModules as {
+  RNBluetoothCacheManager: RNBluetoothCacheManagerInterface;
 };
 
 /**
@@ -18,21 +35,44 @@ const { RNGattCacheRefresh } = NativeModules as {
  */
 export const refreshGattCache = async (deviceId: string): Promise<boolean> => {
   return new Promise((resolve, reject) => {
-    if (!RNGattCacheRefresh) {
-      console.error('RNGattCacheRefresh module is not linked properly.');
-      reject(new Error('RNGattCacheRefresh module is not available.'));
+    if (!RNBluetoothCacheManager) {
+      reject(new Error("RNBluetoothCacheManager module is not available."));
       return;
     }
 
-    RNGattCacheRefresh.refreshCache(deviceId, (error: string | null, success: boolean) => {
-      if (error) {
-        console.error(`Error refreshing GATT cache: ${error}`);
-        reject(error);
-      } else {
-        resolve(success);
+    RNBluetoothCacheManager.refreshCache(
+      deviceId,
+      (error: string | null, success: boolean) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(success);
+        }
       }
-    });
+    );
   });
 };
 
-export default RNGattCacheRefresh;
+/**
+ * Clear the Bluetooth Legacy app cache.
+ * @returns {Promise<boolean>} Resolves `true` if the cache was cleared successfully.
+ */
+export const clearLegacyCache = async (): Promise<boolean> => {
+  if (!RNBluetoothCacheManager) {
+    throw new Error("RNBluetoothCacheManager module is not available.");
+  }
+  return RNBluetoothCacheManager.clearLegacyBluetoothCache();
+};
+
+/**
+ * Open the Bluetooth Legacy app settings.
+ * @returns {Promise<boolean>} Resolves `true` if the settings were opened successfully.
+ */
+export const openBluetoothLegacySettings = async (): Promise<boolean> => {
+  if (!RNBluetoothCacheManager) {
+    throw new Error("RNBluetoothCacheManager module is not available.");
+  }
+  return RNBluetoothCacheManager.openBluetoothLegacySettings();
+};
+
+export default RNBluetoothCacheManager;

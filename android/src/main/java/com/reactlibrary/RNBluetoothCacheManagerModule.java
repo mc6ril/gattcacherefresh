@@ -6,10 +6,15 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothProfile;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.provider.Settings;
 import android.util.Log;
 
 import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -18,19 +23,19 @@ import java.lang.reflect.Method;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class RNGattCacheRefreshModule extends ReactContextBaseJavaModule {
+public class RNBluetoothCacheManagerModule extends ReactContextBaseJavaModule {
 
-    private static final String TAG = "GattCacheModule";
+    private static final String TAG = "BluetoothCacheManager";
     private final ExecutorService commandQueue;
 
-    public RNGattCacheRefreshModule(ReactApplicationContext reactContext) {
+    public RNBluetoothCacheManagerModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.commandQueue = Executors.newSingleThreadExecutor();
     }
 
     @Override
     public String getName() {
-        return "RNGattCacheRefresh";
+        return "RNBluetoothCacheManager";
     }
 
     private void enqueue(Runnable command) {
@@ -52,7 +57,8 @@ public class RNGattCacheRefreshModule extends ReactContextBaseJavaModule {
                 }
 
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-                    if (getReactApplicationContext().checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                    Context context = getReactApplicationContext();
+                    if (context == null || context.checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
                         callback.invoke("BLUETOOTH_CONNECT permission not granted");
                         return;
                     }
@@ -96,5 +102,29 @@ public class RNGattCacheRefreshModule extends ReactContextBaseJavaModule {
                 completedCommand();
             }
         });
+    }
+
+    @ReactMethod
+    public void clearLegacyBluetoothCache(Promise promise) {
+        Context context = getReactApplicationContext();
+        if (context == null) {
+            promise.reject("ERROR", "Context is null.");
+            return;
+        }
+        RNBluetoothLegacyCacheManager.clearLegacyCache(context, promise);
+    }
+
+    @ReactMethod
+    public void openBluetoothLegacySettings(Promise promise) {
+        try {
+            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            intent.setData(Uri.parse("package:" + RNBluetoothLegacyCacheManager.LEGACY_BLUETOOTH_PACKAGE));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            getReactApplicationContext().startActivity(intent);
+            promise.resolve(true);
+        } catch (Exception e) {
+            Log.e(TAG, "Error opening Bluetooth Legacy settings", e);
+            promise.reject("ERROR", "Unable to open Bluetooth Legacy settings: " + e.getMessage());
+        }
     }
 }

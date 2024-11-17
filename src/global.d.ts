@@ -1,31 +1,54 @@
 declare module "react-native-bluetooth-cache-manager" {
+  /**
+   * Interface for managing Bluetooth cache functionality.
+   */
+  interface BluetoothCacheManager {
     /**
-     * Native module for GATT cache refresh.
+     * Refresh the GATT cache for a given Bluetooth device.
+     * @param deviceId - The ID of the Bluetooth device.
+     * @param callback - A callback that returns either an error or success.
      */
-    interface RNGattCacheRefresh {
-      /**
-       * Refresh the GATT cache for a given device ID.
-       * @param deviceId - The Bluetooth device ID.
-       * @param callback - Callback with error or success.
-       */
-      refreshCache(
-        deviceId: string,
-        callback: (error: string | null, result: boolean | null) => void
-      ): void;
-    }
-  
+    refreshCache(
+      deviceId: string,
+      callback: (error: string | null, success: boolean) => void
+    ): void;
+
     /**
-     * The native module instance.
+     * Clear the cache for the Bluetooth Legacy app.
+     * @returns A promise that resolves to `true` if the cache was cleared successfully, otherwise rejects with an error.
      */
-    const RNGattCacheRefresh: RNGattCacheRefresh;
-  
+    clearLegacyBluetoothCache(): Promise<boolean>;
+
     /**
-     * Refresh the GATT cache for a given device ID.
-     * @param deviceId - The Bluetooth device ID.
-     * @returns A promise that resolves to `true` if the cache was refreshed successfully, otherwise `false`.
+     * Open the settings for the Bluetooth Legacy app.
+     * @returns A promise that resolves to `true` if the settings were opened successfully, otherwise rejects with an error.
      */
-    export const refreshGattCache: (deviceId: string) => Promise<boolean>;
-  
-    export default RNGattCacheRefresh;
+    openBluetoothLegacySettings(): Promise<boolean>;
   }
-  
+
+  /**
+   * The native module instance exported by the package.
+   */
+  const BluetoothCacheManager: BluetoothCacheManager;
+
+  /**
+   * Refresh the GATT cache for a given Bluetooth device.
+   * @param deviceId - The ID of the Bluetooth device.
+   * @returns A promise that resolves to `true` if the cache was refreshed successfully, otherwise rejects with an error.
+   */
+  export const refreshGattCache: (deviceId: string) => Promise<boolean>;
+
+  /**
+   * Clear the Bluetooth Legacy app cache.
+   * @returns A promise that resolves to `true` if the cache was cleared successfully, otherwise rejects with an error.
+   */
+  export const clearLegacyCache: () => Promise<boolean>;
+
+  /**
+   * Open the settings for the Bluetooth Legacy app.
+   * @returns A promise that resolves to `true` if the settings were opened successfully, otherwise rejects with an error.
+   */
+  export const openBluetoothLegacySettings: () => Promise<boolean>;
+
+  export default BluetoothCacheManager;
+}
