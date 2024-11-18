@@ -7,10 +7,7 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.provider.Settings;
 import android.util.Log;
 
 import com.facebook.react.bridge.Callback;
@@ -105,26 +102,12 @@ public class RNBluetoothCacheManagerModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void clearLegacyBluetoothCache(Promise promise) {
-        Context context = getReactApplicationContext();
-        if (context == null) {
-            promise.reject("ERROR", "Context is null.");
-            return;
-        }
-        RNBluetoothLegacyCacheManager.clearLegacyCache(context, promise);
+    public void clearCacheOrOpenSettings(Promise promise) {
+        RNBluetoothLegacyCacheManager.clearCacheOrOpenSettings(getReactApplicationContext(), promise);
     }
 
     @ReactMethod
-    public void openBluetoothLegacySettings(Promise promise) {
-        try {
-            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-            intent.setData(Uri.parse("package:" + RNBluetoothLegacyCacheManager.LEGACY_BLUETOOTH_PACKAGE));
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            getReactApplicationContext().startActivity(intent);
-            promise.resolve(true);
-        } catch (Exception e) {
-            Log.e(TAG, "Error opening Bluetooth Legacy settings", e);
-            promise.reject("ERROR", "Unable to open Bluetooth Legacy settings: " + e.getMessage());
-        }
+    public void openAppSettings(String packageName, Promise promise) {
+        RNBluetoothLegacyCacheManager.openAppSettings(getReactApplicationContext(), packageName, promise);
     }
 }

@@ -20,7 +20,7 @@ declare const RNBluetoothCacheManager: RNBluetoothCacheManagerInterface;
 /**
  * Refresh the GATT cache for a given device ID.
  * @param {string} deviceId - The Bluetooth device ID.
- * @returns {Promise<boolean>} Resolves to `true` if the cache was refreshed successfully, otherwise `false`.
+ * @returns {Promise<boolean>} Resolves `true` if the cache was refreshed successfully, otherwise `false`.
  */
 export declare const refreshGattCache: (deviceId: string) => Promise<boolean>;
 /**
