@@ -102,12 +102,7 @@ public class RNBluetoothCacheManagerModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void clearCacheOrOpenSettings(Promise promise) {
-        RNBluetoothLegacyCacheManager.clearCacheOrOpenSettings(getReactApplicationContext(), promise);
-    }
-
-    @ReactMethod
-    public void openAppSettings(String packageName, Promise promise) {
-        RNBluetoothLegacyCacheManager.openAppSettings(getReactApplicationContext(), packageName, promise);
+    public void openBluetoothLegacySettings(Promise promise) {
+        RNBluetoothLegacyCacheManager.openBluetoothLegacySettings(getReactApplicationContext(), promise);
     }
 }

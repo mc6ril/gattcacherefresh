@@ -14,23 +14,10 @@ declare module "react-native-bluetooth-cache-manager" {
     ): void;
 
     /**
-     * Clear the cache for the Bluetooth Legacy app.
-     * @returns A promise that resolves to `true` if the cache was cleared successfully, otherwise rejects with an error.
-     */
-    clearLegacyBluetoothCache(): Promise<boolean>;
-
-    /**
-     * Open the settings for the Bluetooth Legacy app.
-     * @returns A promise that resolves to `true` if the settings were opened successfully, otherwise rejects with an error.
+     * Open Bluetooth Legacy settings.
+     * @returns A promise that resolves to `true` if the operation was successful, otherwise rejects with an error.
      */
     openBluetoothLegacySettings(): Promise<boolean>;
-
-    /**
-     * Open the app settings for any specified package.
-     * @param packageName - The name of the package.
-     * @returns A promise that resolves to `true` if the settings were opened successfully, otherwise rejects with an error.
-     */
-    openAppSettings(packageName: string): Promise<boolean>;
   }
 
   /**
@@ -41,28 +28,15 @@ declare module "react-native-bluetooth-cache-manager" {
   /**
    * Refresh the GATT cache for a given Bluetooth device.
    * @param deviceId - The ID of the Bluetooth device.
-   * @returns A promise that resolves to `true` if the cache was refreshed successfully, otherwise rejects with an error.
+   * @returns {Promise<boolean>} Resolves `true` if the cache was refreshed successfully, otherwise rejects with an error.
    */
   export const refreshGattCache: (deviceId: string) => Promise<boolean>;
 
   /**
-   * Clear the Bluetooth Legacy app cache.
-   * @returns A promise that resolves to `true` if the cache was cleared successfully, otherwise rejects with an error.
-   */
-  export const clearLegacyCache: () => Promise<boolean>;
-
-  /**
-   * Open the settings for the Bluetooth Legacy app.
-   * @returns A promise that resolves to `true` if the settings were opened successfully, otherwise rejects with an error.
+   * Open Bluetooth Legacy settings.
+   * @returns {Promise<boolean>} Resolves `true` if the operation was successful, otherwise rejects with an error.
    */
   export const openBluetoothLegacySettings: () => Promise<boolean>;
-
-  /**
-   * Open the app settings for any specified package.
-   * @param packageName - The name of the package.
-   * @returns A promise that resolves to `true` if the settings were opened successfully, otherwise rejects with an error.
-   */
-  export const openAppSettings: (packageName: string) => Promise<boolean>;
 
   export default BluetoothCacheManager;
 }

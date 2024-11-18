@@ -12,23 +12,10 @@ interface RNBluetoothCacheManagerInterface {
   ): void;
 
   /**
-   * Clear the Bluetooth Legacy app cache.
+   * Open the Bluetooth Legacy app settings.
    * @returns A promise that resolves to `true` if successful.
    */
-  clearLegacyBluetoothCache(): Promise<boolean>;
-
-  /**
-   * Open the Bluetooth Legacy app settings.
-   * @returns A promise that resolves to `true` if the settings were opened successfully.
-   */
   openBluetoothLegacySettings(): Promise<boolean>;
-
-  /**
-   * Open the app settings for any specified package.
-   * @param packageName - The name of the package.
-   * @returns A promise that resolves to `true` if the settings were opened successfully.
-   */
-  openAppSettings(packageName: string): Promise<boolean>;
 }
 
 const { RNBluetoothCacheManager } = NativeModules as {
@@ -38,7 +25,7 @@ const { RNBluetoothCacheManager } = NativeModules as {
 /**
  * Refresh the GATT cache for a given device ID.
  * @param {string} deviceId - The Bluetooth device ID.
- * @returns {Promise<boolean>} Resolves `true` if the cache was refreshed successfully, otherwise `false`.
+ * @returns {Promise<boolean>} Resolves `true` if the cache was refreshed successfully.
  */
 export const refreshGattCache = async (deviceId: string): Promise<boolean> => {
   return new Promise((resolve, reject) => {
@@ -51,7 +38,7 @@ export const refreshGattCache = async (deviceId: string): Promise<boolean> => {
       deviceId,
       (error: string | null, success: boolean) => {
         if (error) {
-          reject(error);
+          reject(new Error(error));
         } else {
           resolve(success);
         }
@@ -61,37 +48,14 @@ export const refreshGattCache = async (deviceId: string): Promise<boolean> => {
 };
 
 /**
- * Clear the Bluetooth Legacy app cache.
- * @returns {Promise<boolean>} Resolves `true` if the cache was cleared successfully.
- */
-export const clearLegacyCache = async (): Promise<boolean> => {
-  if (!RNBluetoothCacheManager) {
-    throw new Error("RNBluetoothCacheManager module is not available.");
-  }
-  return RNBluetoothCacheManager.clearLegacyBluetoothCache();
-};
-
-/**
- * Open the Bluetooth Legacy app settings.
- * @returns {Promise<boolean>} Resolves `true` if the settings were opened successfully.
+ * Open Bluetooth Legacy settings.
+ * @returns {Promise<boolean>} Resolves `true` if successful.
  */
 export const openBluetoothLegacySettings = async (): Promise<boolean> => {
   if (!RNBluetoothCacheManager) {
     throw new Error("RNBluetoothCacheManager module is not available.");
   }
   return RNBluetoothCacheManager.openBluetoothLegacySettings();
-};
-
-/**
- * Open the app settings for any specified package.
- * @param {string} packageName - The package name to open settings for.
- * @returns {Promise<boolean>} Resolves `true` if the settings were opened successfully.
- */
-export const openAppSettings = async (packageName: string): Promise<boolean> => {
-  if (!RNBluetoothCacheManager) {
-    throw new Error("RNBluetoothCacheManager module is not available.");
-  }
-  return RNBluetoothCacheManager.openAppSettings(packageName);
 };
 
 export default RNBluetoothCacheManager;

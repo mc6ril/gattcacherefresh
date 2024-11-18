@@ -17,7 +17,7 @@ public class RNBluetoothLegacyCacheManager {
         "com.google.android.bluetooth"
     };
 
-    public static void clearCacheOrOpenSettings(Context context, Promise promise) {
+    public static void openBluetoothLegacySettings(Context context, Promise promise) {
         try {
             PackageManager pm = context.getPackageManager();
             String targetPackage = null;
@@ -44,7 +44,7 @@ public class RNBluetoothLegacyCacheManager {
         }
     }
 
-    public static void openAppSettings(Context context, String packageName, Promise promise) {
+    private static void openAppSettings(Context context, String packageName, Promise promise) {
         try {
             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
             intent.setData(Uri.parse("package:" + packageName));
